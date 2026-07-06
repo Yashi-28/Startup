@@ -40,3 +40,26 @@ app.include_router(chat.router, prefix="/api")
 @app.get("/api/health")
 def health_check():
     return {"status": "healthy", "project": "StartSmart AI"}
+
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+from fastapi import HTTPException
+
+# Serve React Static Frontend
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+if os.path.exists(static_dir):
+    # Mount assets folder
+    app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
+    
+    # Catch-all route to serve index.html or raw files (favicon, icons)
+    @app.get("/{catchall:path}")
+    def serve_react_app(catchall: str):
+        # Exclude API endpoints from catch-all
+        if catchall.startswith("api/") or catchall == "api":
+            raise HTTPException(status_code=404, detail="Not Found")
+        
+        file_path = os.path.join(static_dir, catchall)
+        if os.path.isfile(file_path):
+            return FileResponse(file_path)
+            
+        return FileResponse(os.path.join(static_dir, "index.html"))
