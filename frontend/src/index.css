@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans bg-dark-bg text-gray-200 antialiased selection:bg-brand-500 selection:text-white;
+  }
+}
+
+/* Premium UI Utilities */
+.glass-panel {
+  background: rgba(21, 28, 44, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(34, 47, 71, 0.6);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(124, 58, 237, 0.5);
+  box-shadow: 0 10px 30px -10px rgba(124, 58, 237, 0.2);
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-300 via-brand-500 to-purple-400;
+}
+
+.glow-btn {
+  @apply relative overflow-hidden transition-all duration-300 active:scale-95;
+}
+
+.glow-btn::after {
+  content: '';
+  @apply absolute inset-0 opacity-0 transition-opacity duration-300 bg-gradient-to-r from-brand-400 to-purple-500 blur-md -z-10;
+}
+
+.glow-btn:hover::after {
+  @apply opacity-30;
+}
+
+/* Custom Grid Background overlay */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(34, 47, 71, 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(34, 47, 71, 0.2) 1px, transparent 1px);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark-bg;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-dark-border rounded-full hover:bg-brand-600;
+}
