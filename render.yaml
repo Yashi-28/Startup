@@ -15,17 +15,17 @@ services:
         sync: false # Render dashboard will prompt you to type this key
       - key: FRONTEND_URL
         fromService:
-          type: static
+          type: web
           name: startsmart-frontend
           property: url
 
   # 2. React Vite Frontend Static Site
-  - type: static
+  - type: web
     name: startsmart-frontend
-    env: static
+    runtime: static
     rootDir: frontend
     buildCommand: npm run build
-    publishDir: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
         fromService:
