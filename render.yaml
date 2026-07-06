@@ -14,10 +14,7 @@ services:
       - key: GEMINI_API_KEY
         sync: false # Render dashboard will prompt you to type this key
       - key: FRONTEND_URL
-        fromService:
-          type: web
-          name: startsmart-frontend
-          property: url
+        sync: false # Render dashboard will prompt you to type this key
 
   # 2. React Vite Frontend Static Site
   - type: web
@@ -28,7 +25,4 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
-        fromService:
-          type: web
-          name: startsmart-backend
-          property: url
+        sync: false # Render dashboard will prompt you to type this key
