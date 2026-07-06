@@ -3,6 +3,7 @@ services:
   - type: web
     name: startsmart-backend
     env: python
+    plan: free
     rootDir: backend
     buildCommand: pip install -r requirements.txt && python scripts/train_models.py
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port 10000
@@ -20,6 +21,7 @@ services:
   - type: web
     name: startsmart-frontend
     runtime: static
+    plan: free
     rootDir: frontend
     buildCommand: npm run build
     staticPublishPath: dist
