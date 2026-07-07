@@ -5,7 +5,7 @@ import { BrainCircuit, Mail, Lock, AlertCircle, ArrowRight } from 'lucide-react'
 import Navbar from '../components/Navbar';
 
 const Login = () => {
-  const { login, token } = useContext(AuthContext);
+  const { login, loginWithGoogle, token } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
@@ -13,11 +13,60 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const handleGoogleLogin = async (response) => {
+    setError('');
+    setLoading(true);
+    try {
+      await loginWithGoogle(response.credential);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message || "Google authentication failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     // If already logged in, redirect immediately
     if (token) {
       navigate('/dashboard');
+      return;
     }
+
+    const initGoogle = () => {
+      if (window.google) {
+        window.google.accounts.id.initialize({
+          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID_HERE",
+          callback: handleGoogleLogin
+        });
+        window.google.accounts.id.renderButton(
+          document.getElementById("google-signin-btn"),
+          { 
+            theme: "outline", 
+            size: "large", 
+            width: "380",
+            text: "signin_with",
+            logo_alignment: "left"
+          }
+        );
+      }
+    };
+
+    if (window.google) {
+      initGoogle();
+    } else {
+      const script = document.querySelector('script[src*="gsi/client"]');
+      if (script) {
+        script.addEventListener('load', initGoogle);
+      }
+    }
+
+    return () => {
+      const script = document.querySelector('script[src*="gsi/client"]');
+      if (script) {
+        script.removeEventListener('load', initGoogle);
+      }
+    };
   }, [token, navigate]);
 
   const handleSubmit = async (e) => {
@@ -128,7 +177,22 @@ const Login = () => {
             </button>
           </form>
 
-          <p className="text-center text-xs text-gray-400 mt-8">
+          {/* Divider */}
+          <div className="relative my-5">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-dark-border/40"></div>
+            </div>
+            <div className="relative flex justify-center text-[10px] uppercase">
+              <span className="bg-[#151c2c] px-3 text-gray-500 font-bold tracking-wider">Or continue with</span>
+            </div>
+          </div>
+
+          {/* Google Sign-in button */}
+          <div className="w-full flex justify-center">
+            <div id="google-signin-btn" className="w-full flex justify-center"></div>
+          </div>
+
+          <p className="text-center text-xs text-gray-400 mt-6">
             Don't have an account?{' '}
             <Link
               to="/register"
