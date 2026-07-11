@@ -12,7 +12,7 @@ import EvaluationForm from './pages/EvaluationForm';
 import ReportDetail from './pages/ReportDetail';
 import MentorChat from './pages/MentorChat';
 import Profile from './pages/Profile';
-import About from './pages/About';
+
 import Contact from './pages/Contact';
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/about" element={<About />} />
+
           <Route path="/contact" element={<Contact />} />
 
           {/* Protected Routes */}

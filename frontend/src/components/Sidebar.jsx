@@ -6,8 +6,7 @@ const Sidebar = () => {
   const navItems = [
     { to: '/', label: 'Home', icon: Home, end: true },
     { to: '/evaluate-form', label: 'Prediction', icon: BarChart3 },
-    { to: '/dashboard', label: 'Analytics', icon: TrendingUp }, // Dashboard represents portfolio analytics
-    { to: '/about', label: 'About', icon: Info },
+    { to: '/dashboard', label: 'Analytics', icon: TrendingUp },
     { to: '/contact', label: 'Contact', icon: PhoneCall },
   ];
 
