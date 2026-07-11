@@ -7,8 +7,8 @@ from .routes import auth, ideas, evaluate, chat
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="StartSmart AI API",
-    description="Backend API for StartSmart AI Startup Evaluator & Business Mentor",
+    title="NexalQ API",
+    description="Backend API for NexalQ Startup Evaluator & Business Mentor",
     version="1.0.0"
 )
 
@@ -39,7 +39,7 @@ app.include_router(chat.router, prefix="/api")
 
 @app.get("/api/health")
 def health_check():
-    return {"status": "healthy", "project": "StartSmart AI"}
+    return {"status": "healthy", "project": "NexalQ"}
 
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse

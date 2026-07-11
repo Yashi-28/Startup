@@ -1,3 +1,5 @@
+import defaultTheme from 'tailwindcss/defaultTheme';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -9,30 +11,32 @@ export default {
     extend: {
       colors: {
         brand: {
-          50: '#f5f3ff',
-          100: '#ede9fe',
-          200: '#ddd6fe',
-          300: '#c084fc',
-          400: '#a855f7',
-          505: '#8b5cf6',
-          500: '#7c3aed',
-          600: '#6d28d9',
-          700: '#5b21b6',
-          800: '#4c1d95',
-          900: '#2e1065',
+          50: '#EEF2FF',
+          100: '#E0E7FF',
+          200: '#C7D2FE',
+          300: '#A5B4FC',
+          400: '#818CF8',
+          500: '#6366F1',
+          600: '#4F46E5',
+          700: '#4338CA',
+          800: '#3730A3',
+          900: '#312E81',
+          950: '#1E1B4B',
         },
         dark: {
           bg: '#0B0F19',
-          card: '#151C2C',
-          border: '#222F47',
-          text: '#F3F4F6'
+          card: '#111827',
+          border: 'rgba(31, 41, 55, 0.7)',
+          text: '#F9FAFB'
         }
       },
+      borderRadius: {
+        '18px': '18px',
+      },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Poppins', 'Inter', 'sans-serif'],
       },
     },
   },
   plugins: [],
 }
-

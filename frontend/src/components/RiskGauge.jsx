@@ -5,7 +5,7 @@ const RiskGauge = ({ title, value }) => {
   
   // Calculate labels and colors
   let colorClass = "bg-emerald-500 shadow-emerald-500/20";
-  let textClass = "text-emerald-400";
+  let textClass = "text-emerald-450";
   let label = "Low Risk";
   
   if (score > 70) {
@@ -19,16 +19,16 @@ const RiskGauge = ({ title, value }) => {
   }
 
   return (
-    <div className="w-full p-4 bg-dark-card/40 rounded-xl border border-dark-border/40 hover:border-dark-border transition-all duration-300">
+    <div className="w-full p-4 bg-[#111827]/40 rounded-xl border border-slate-800/60 hover:border-slate-800 transition-all duration-300">
       <div className="flex justify-between items-center mb-2">
-        <span className="text-sm font-semibold text-gray-300">{title}</span>
+        <span className="text-sm font-semibold text-slate-350">{title}</span>
         <span className={`text-xs font-bold uppercase tracking-wider ${textClass}`}>
           {score}% - {label}
         </span>
       </div>
       
       {/* Background Track */}
-      <div className="relative w-full h-2.5 bg-dark-border rounded-full overflow-hidden">
+      <div className="relative w-full h-2.5 bg-slate-900 rounded-full overflow-hidden">
         {/* Fill Indicator */}
         <div 
           className={`h-full rounded-full transition-all duration-1000 ease-out ${colorClass}`}
@@ -37,7 +37,7 @@ const RiskGauge = ({ title, value }) => {
       </div>
 
       {/* Segment Indicators */}
-      <div className="flex justify-between text-[9px] text-gray-500 mt-1.5 px-0.5">
+      <div className="flex justify-between text-[9px] text-slate-500 mt-1.5 px-0.5">
         <span>Low</span>
         <span>Medium</span>
         <span>High</span>

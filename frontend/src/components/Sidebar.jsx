@@ -1,53 +1,55 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, FileSpreadsheet, MessageSquare, User, Compass, Brain } from 'lucide-react';
+import { Home, BarChart3, TrendingUp, Info, PhoneCall, Brain } from 'lucide-react';
 
 const Sidebar = () => {
   const navItems = [
-    { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { to: '/evaluate-form', label: 'Evaluate Idea', icon: FileSpreadsheet },
-    { to: '/mentor-chat', label: 'Mentor Chat', icon: MessageSquare },
-    { to: '/profile', label: 'Profile', icon: User },
+    { to: '/', label: 'Home', icon: Home, end: true },
+    { to: '/evaluate-form', label: 'Prediction', icon: BarChart3 },
+    { to: '/dashboard', label: 'Analytics', icon: TrendingUp }, // Dashboard represents portfolio analytics
+    { to: '/about', label: 'About', icon: Info },
+    { to: '/contact', label: 'Contact', icon: PhoneCall },
   ];
 
   return (
-    <aside className="w-64 bg-dark-card/30 border-r border-dark-border/65 min-h-[calc(100vh-64px)] hidden md:block">
-      <div className="flex flex-col gap-1 p-4">
+    <aside className="w-64 bg-[#0B0F19] border-r border-slate-850 min-h-[calc(100vh-64px)] hidden md:block">
+      <div className="flex flex-col gap-1.5 p-4 sticky top-20">
         {navItems.map((item) => {
           const Icon = item.icon;
           return (
             <NavLink
               key={item.to}
               to={item.to}
+              end={item.end}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all ${
+                `flex items-center gap-3 px-4 py-3.5 rounded-xl font-bold text-xs transition-all duration-300 ${
                   isActive
-                    ? 'bg-brand-600 text-white shadow-lg shadow-brand-500/10'
-                    : 'text-gray-400 hover:text-white hover:bg-dark-border/40'
+                    ? 'bg-indigo-500/10 text-white border-l-4 border-indigo-500'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-900/40 border-l-4 border-transparent'
                 }`
               }
             >
-              <Icon className="h-5 w-5" />
+              <Icon className="h-4.5 w-4.5 shrink-0" />
               {item.label}
             </NavLink>
           );
         })}
 
-        <div className="mt-8 p-4 rounded-2xl bg-gradient-to-br from-brand-900/40 to-purple-950/20 border border-brand-800/40 relative overflow-hidden">
+        <div className="mt-8 p-5 rounded-2xl bg-gradient-to-br from-indigo-950/40 via-slate-900/60 to-cyan-950/40 border border-slate-800/80 relative overflow-hidden">
           <div className="relative z-10">
-            <Brain className="h-8 w-8 text-brand-400 mb-2" />
-            <h5 className="text-xs font-bold text-gray-200 mb-1">Need help?</h5>
-            <p className="text-[11px] text-gray-400 leading-relaxed mb-3">
-              Ask your AI Business Mentor for growth strategies.
+            <Brain className="h-7 w-7 text-indigo-400 mb-2 animate-float" />
+            <h5 className="text-[10px] font-extrabold text-slate-200 uppercase tracking-wider mb-1">AI Business Mentor</h5>
+            <p className="text-[10px] text-slate-400 leading-relaxed mb-3">
+              Consult our advanced AI agent for interactive suggestions on SWOT models and custom canvas setups.
             </p>
             <NavLink
               to="/mentor-chat"
-              className="inline-block text-[10px] font-bold uppercase tracking-wider text-brand-300 hover:text-brand-200 transition-colors"
+              className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-indigo-405 hover:text-indigo-300 transition-colors"
             >
-              Start Chatting &rarr;
+              Consult Mentor &rarr;
             </NavLink>
           </div>
-          <div className="absolute right-[-10px] bottom-[-10px] w-20 h-20 rounded-full bg-brand-500/10 blur-xl" />
+          <div className="absolute right-[-10px] bottom-[-10px] w-20 h-20 rounded-full bg-indigo-500/5 blur-xl" />
         </div>
       </div>
     </aside>

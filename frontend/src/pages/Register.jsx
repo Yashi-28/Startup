@@ -203,7 +203,7 @@ const Register = () => {
               <div className="w-full border-t border-dark-border/40"></div>
             </div>
             <div className="relative flex justify-center text-[10px] uppercase">
-              <span className="bg-[#151c2c] px-3 text-gray-500 font-bold tracking-wider">Or continue with</span>
+              <span className="bg-[#111827] px-3 text-gray-500 font-bold tracking-wider">Or continue with</span>
             </div>
           </div>
 
@@ -225,7 +225,7 @@ const Register = () => {
       </div>
 
       <footer className="py-6 text-center text-[10px] text-gray-500">
-        &copy; {new Date().getFullYear()} StartSmart AI. All rights reserved.
+        &copy; {new Date().getFullYear()} NexalQ. All rights reserved.
       </footer>
     </div>
   );
