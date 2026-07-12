@@ -38,7 +38,7 @@ const ReportDetail = () => {
         setError("Error loading report detail.");
         console.error(err);
       } finally {
-        loading(false);
+        setLoading(false);
       }
     };
 
