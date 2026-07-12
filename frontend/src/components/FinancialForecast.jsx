@@ -92,14 +92,14 @@ const FinancialForecast = ({ predictionData }) => {
       legend: { position: 'top' },
       tooltip: {
         callbacks: {
-          label: (context) => `${context.dataset.label}: $${context.raw.toLocaleString()}`
+          label: (context) => `${context.dataset.label}: ₹${context.raw.toLocaleString()}`
         }
       }
     },
     scales: {
       y: {
-        ticks: { callback: (value) => '$' + value.toLocaleString() },
-        title: { display: true, text: 'Monthly Gross Revenue ($)' }
+        ticks: { callback: (value) => '₹' + value.toLocaleString() },
+        title: { display: true, text: 'Monthly Gross Revenue (₹)' }
       }
     }
   };
@@ -121,19 +121,19 @@ const FinancialForecast = ({ predictionData }) => {
         <div className="border border-emerald-100 bg-emerald-50/30 p-4 rounded-xl">
           <span className="text-sm font-semibold text-emerald-800">Optimistic Cumulative</span>
           <span className="text-2xl font-black text-emerald-700 block mt-1">
-            ${optimistic.reduce((a, b) => a + b, 0).toLocaleString(undefined, {maximumFractionDigits:0})}
+            ₹{optimistic.reduce((a, b) => a + b, 0).toLocaleString(undefined, {maximumFractionDigits:0})}
           </span>
         </div>
         <div className="border border-blue-100 bg-blue-50/30 p-4 rounded-xl">
           <span className="text-sm font-semibold text-blue-800">Realistic Cumulative</span>
           <span className="text-2xl font-black text-blue-700 block mt-1">
-            ${realistic.reduce((a, b) => a + b, 0).toLocaleString(undefined, {maximumFractionDigits:0})}
+            ₹{realistic.reduce((a, b) => a + b, 0).toLocaleString(undefined, {maximumFractionDigits:0})}
           </span>
         </div>
         <div className="border border-red-100 bg-red-50/30 p-4 rounded-xl">
           <span className="text-sm font-semibold text-red-800">Pessimistic Floor Total</span>
           <span className="text-2xl font-black text-red-700 block mt-1">
-            ${pessimistic.reduce((a, b) => a + b, 0).toLocaleString(undefined, {maximumFractionDigits:0})}
+            ₹{pessimistic.reduce((a, b) => a + b, 0).toLocaleString(undefined, {maximumFractionDigits:0})}
           </span>
         </div>
       </div>
