@@ -1,6 +1,6 @@
-from pydantic import BaseModel, EmailStr, Field
-from typing import Optional, List
 import datetime
+from typing import List, Optional
+from pydantic import BaseModel, EmailStr, Field
 
 # --- AUTH SCHEMAS ---
 
@@ -76,6 +76,9 @@ class PredictionResponse(BaseModel):
     risk_execution: int
     risk_technology: int
     risk_legal: int
+    financial_forecast_optimistic: Optional[str] = None
+    financial_forecast_realistic: Optional[str] = None
+    financial_forecast_pessimistic: Optional[str] = None
     created_at: datetime.datetime
 
     class Config:
@@ -92,6 +95,7 @@ class ReportResponse(BaseModel):
     marketing_suggestions: str
     growth_strategy: str
     pitch_deck_content: str
+    competitor_analysis: Optional[str] = None
     pdf_path: Optional[str]
     created_at: datetime.datetime
 

@@ -58,7 +58,10 @@ class Prediction(Base):
     risk_financial = Column(Integer, nullable=False)      # 0 to 100
     risk_execution = Column(Integer, nullable=False)      # 0 to 100
     risk_technology = Column(Integer, nullable=False)     # 0 to 100
-    risk_legal = Column(Integer, nullable=False)          # 0 to 100
+    risk_legal = Column(Integer, nullable=False) 
+    financial_forecast_optimistic = Column(Text, nullable=True)   # Stored as serialized JSON arrays
+    financial_forecast_realistic = Column(Text, nullable=True)
+    financial_forecast_pessimistic = Column(Text, nullable=True)         # 0 to 100
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     idea = relationship("StartupIdea", back_populates="prediction")
@@ -75,10 +78,11 @@ class Report(Base):
     growth_strategy = Column(Text, nullable=False)        # Text
     pitch_deck_content = Column(Text, nullable=False)     # JSON string
     pdf_path = Column(String, nullable=True)
+    competitor_analysis = Column(Text, nullable=True)  # Will store our Gemini JSON string
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     idea = relationship("StartupIdea", back_populates="report")
-
+    
 class ChatMessage(Base):
     __tablename__ = "chat_messages"
 

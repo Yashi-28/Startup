@@ -5,9 +5,11 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import SuccessGauge from '../components/SuccessGauge';
 import RiskGauge from '../components/RiskGauge';
+import CompetitorAnalysis from '../components/CompetitorAnalysis';
+import FinancialForecast from '../components/FinancialForecast';
 import { 
   FileText, Download, MessageSquare, ArrowLeft, BarChart3, 
-  Sparkles, Layers, ListOrdered, Calendar, ShieldCheck 
+  Sparkles, Layers, ListOrdered, Calendar, ShieldCheck, Users, TrendingUp
 } from 'lucide-react';
 
 const ReportDetail = () => {
@@ -17,7 +19,7 @@ const ReportDetail = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState('overview'); // overview, lean, swot, pitch
+  const [activeTab, setActiveTab] = useState('overview'); 
   const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
@@ -36,7 +38,7 @@ const ReportDetail = () => {
         setError("Error loading report detail.");
         console.error(err);
       } finally {
-        setLoading(false);
+        loading(false);
       }
     };
 
@@ -123,10 +125,12 @@ const ReportDetail = () => {
             </div>
           </div>
 
-          {/* Navigation Tabs */}
-          <div className="flex border-b border-dark-border/80 gap-6 text-sm font-semibold">
+          {/* Navigation Tabs (Competitors aur Financials yahan line-up ho gaye hain) */}
+          <div className="flex flex-wrap border-b border-dark-border/80 gap-6 text-sm font-semibold">
             {[
               { id: 'overview', label: 'Evaluation Overview', icon: BarChart3 },
+              { id: 'competitors', label: 'Market Analysis', icon: Users },
+              { id: 'financials', label: 'Financial Forecast', icon: TrendingUp },
               { id: 'lean', label: 'Lean Business Canvas', icon: Layers },
               { id: 'swot', label: 'SWOT Analysis', icon: Sparkles },
               { id: 'pitch', label: 'Slide Pitch Deck', icon: ListOrdered }
@@ -152,7 +156,6 @@ const ReportDetail = () => {
           {/* TAB 1: OVERVIEW */}
           {activeTab === 'overview' && (
             <div className="space-y-8 animate-fade-in">
-              {/* Gauges row */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <SuccessGauge score={prediction?.success_probability} />
                 
@@ -186,11 +189,10 @@ const ReportDetail = () => {
                 </div>
               </div>
 
-              {/* Financial & Risks Grid */}
+              {/* Financial Baseline Row */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Financial Revenues table */}
                 <div className="glass-panel p-6 rounded-3xl border border-dark-border/60">
-                  <h3 className="text-lg font-bold text-white mb-4">Estimated Revenues Forecast</h3>
+                  <h3 className="text-lg font-bold text-white mb-4">Estimated Revenues Forecast (Baseline)</h3>
                   <div className="overflow-hidden rounded-xl border border-dark-border/80">
                     <table className="w-full text-left text-xs">
                       <thead>
@@ -217,7 +219,6 @@ const ReportDetail = () => {
                   </div>
                 </div>
 
-                {/* Risk matrix segment bars */}
                 <div className="glass-panel p-6 rounded-3xl border border-dark-border/60 space-y-4">
                   <h3 className="text-lg font-bold text-white">Startup Risk Profile</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -232,7 +233,7 @@ const ReportDetail = () => {
                 </div>
               </div>
 
-              {/* Marketing Suggestions */}
+              {/* Suggestions */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="glass-panel p-6 rounded-3xl border-dark-border/60">
                   <h3 className="text-lg font-bold text-white mb-4">Marketing Suggestions</h3>
@@ -261,16 +262,28 @@ const ReportDetail = () => {
             </div>
           )}
 
-          {/* TAB 2: LEAN BUSINESS CANVAS */}
+          {/* DYNAMIC TAB: MARKET ANALYSIS */}
+          {activeTab === 'competitors' && (
+            <div className="animate-fade-in bg-dark-card border border-dark-border/60 p-6 rounded-3xl">
+              <CompetitorAnalysis reportData={report} />
+            </div>
+          )}
+
+          {/* DYNAMIC TAB: FINANCIAL FORECAST (CHART-JS VIEW) */}
+          {activeTab === 'financials' && (
+            <div className="animate-fade-in bg-dark-card border border-dark-border/60 p-6 rounded-3xl text-gray-900">
+              <FinancialForecast predictionData={prediction} />
+            </div>
+          )}
+
+          {/* TAB: LEAN BUSINESS CANVAS */}
           {activeTab === 'lean' && (
             <div className="space-y-6 animate-fade-in">
               <div className="p-4 bg-brand-950/20 border border-brand-900/60 rounded-2xl text-xs text-brand-300">
                 💡 <strong>What is a Lean Canvas?</strong> A fast, structured 1-page template designed by Ash Maurya that deconstructs your business idea into key building blocks.
               </div>
 
-              {/* Lean Canvas 5-column CSS grid representation */}
               <div className="grid grid-cols-1 md:grid-cols-5 border border-dark-border rounded-3xl overflow-hidden bg-dark-bg">
-                {/* 1. Problem (Left col, top half) */}
                 <div className="border-r border-b border-dark-border p-5 md:col-span-1 md:row-span-2">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-brand-400 mb-3">1. Problem</h4>
                   <ul className="space-y-2 text-xs text-gray-400">
@@ -278,7 +291,6 @@ const ReportDetail = () => {
                   </ul>
                 </div>
 
-                {/* 2. Solution & Key Metrics (Middle Left) */}
                 <div className="border-r border-b border-dark-border p-5 md:col-span-1">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-brand-400 mb-3">2. Solution</h4>
                   <ul className="space-y-2 text-xs text-gray-400">
@@ -286,7 +298,6 @@ const ReportDetail = () => {
                   </ul>
                 </div>
                 
-                {/* 4. Unique Value Proposition (Center) */}
                 <div className="border-r border-b border-dark-border p-5 md:col-span-1 md:row-span-2 bg-brand-950/5">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-3">4. Unique Value Prop</h4>
                   <ul className="space-y-2 text-xs text-gray-300">
@@ -294,7 +305,6 @@ const ReportDetail = () => {
                   </ul>
                 </div>
 
-                {/* 5. Unfair Advantage & Channels (Middle Right) */}
                 <div className="border-r border-b border-dark-border p-5 md:col-span-1">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-brand-400 mb-3">5. Unfair Advantage</h4>
                   <ul className="space-y-2 text-xs text-gray-400">
@@ -302,7 +312,6 @@ const ReportDetail = () => {
                   </ul>
                 </div>
 
-                {/* 7. Customer Segments (Right col, top half) */}
                 <div className="border-b border-dark-border p-5 md:col-span-1 md:row-span-2">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-brand-400 mb-3">7. Customer Segments</h4>
                   <ul className="space-y-2 text-xs text-gray-400">
@@ -310,7 +319,6 @@ const ReportDetail = () => {
                   </ul>
                 </div>
 
-                {/* 3. Key Metrics (Bottom Left, under Solution) */}
                 <div className="border-r border-b border-dark-border p-5 md:col-span-1">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-brand-400 mb-3">3. Key Metrics</h4>
                   <ul className="space-y-2 text-xs text-gray-400">
@@ -318,7 +326,6 @@ const ReportDetail = () => {
                   </ul>
                 </div>
 
-                {/* 6. Channels (Bottom Right, under Advantage) */}
                 <div className="border-r border-b border-dark-border p-5 md:col-span-1">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-brand-400 mb-3">6. Channels</h4>
                   <ul className="space-y-2 text-xs text-gray-400">
@@ -326,15 +333,13 @@ const ReportDetail = () => {
                   </ul>
                 </div>
 
-                {/* 8. Cost Structure (Bottom Left half span) */}
-                <div className="border-r p-5 md:col-span-2.5 md:col-span-2">
+                <div className="border-r p-5 md:col-span-2">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-brand-400 mb-3">8. Cost Structure</h4>
                   <ul className="space-y-2 text-xs text-gray-400">
                     {leanCanvas.cost_structure?.map((item, i) => <li key={i}>• {item}</li>)}
                   </ul>
                 </div>
 
-                {/* 9. Revenue Streams (Bottom Right half span) */}
                 <div className="p-5 md:col-span-3">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-brand-400 mb-3">9. Revenue Streams</h4>
                   <ul className="space-y-2 text-xs text-gray-400">
@@ -345,11 +350,10 @@ const ReportDetail = () => {
             </div>
           )}
 
-          {/* TAB 3: SWOT ANALYSIS */}
+          {/* TAB: SWOT ANALYSIS */}
           {activeTab === 'swot' && (
             <div className="space-y-6 animate-fade-in">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Strengths */}
                 <div className="glass-panel p-6 rounded-3xl border-emerald-500/20 hover:border-emerald-500/50 bg-emerald-500/[0.02] transition-all">
                   <h3 className="text-lg font-bold text-emerald-400 mb-4 flex items-center gap-2">
                     💪 Strengths (Internal, Help)
@@ -357,14 +361,12 @@ const ReportDetail = () => {
                   <ul className="space-y-3 text-xs leading-relaxed text-gray-300">
                     {swot.strengths?.map((item, idx) => (
                       <li key={idx} className="flex gap-2">
-                        <span>•</span>
-                        <span>{item}</span>
+                        <span>•</span> <span>{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                {/* Weaknesses */}
                 <div className="glass-panel p-6 rounded-3xl border-rose-500/20 hover:border-rose-500/50 bg-rose-500/[0.02] transition-all">
                   <h3 className="text-lg font-bold text-rose-400 mb-4 flex items-center gap-2">
                     ⚠️ Weaknesses (Internal, Harm)
@@ -372,14 +374,12 @@ const ReportDetail = () => {
                   <ul className="space-y-3 text-xs leading-relaxed text-gray-300">
                     {swot.weaknesses?.map((item, idx) => (
                       <li key={idx} className="flex gap-2">
-                        <span>•</span>
-                        <span>{item}</span>
+                        <span>•</span> <span>{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                {/* Opportunities */}
                 <div className="glass-panel p-6 rounded-3xl border-sky-500/20 hover:border-sky-500/50 bg-sky-500/[0.02] transition-all">
                   <h3 className="text-lg font-bold text-sky-400 mb-4 flex items-center gap-2">
                     🚀 Opportunities (External, Help)
@@ -387,14 +387,12 @@ const ReportDetail = () => {
                   <ul className="space-y-3 text-xs leading-relaxed text-gray-300">
                     {swot.opportunities?.map((item, idx) => (
                       <li key={idx} className="flex gap-2">
-                        <span>•</span>
-                        <span>{item}</span>
+                        <span>•</span> <span>{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                {/* Threats */}
                 <div className="glass-panel p-6 rounded-3xl border-amber-500/20 hover:border-amber-500/50 bg-amber-500/[0.02] transition-all">
                   <h3 className="text-lg font-bold text-amber-400 mb-4 flex items-center gap-2">
                     🛑 Threats (External, Harm)
@@ -402,8 +400,7 @@ const ReportDetail = () => {
                   <ul className="space-y-3 text-xs leading-relaxed text-gray-300">
                     {swot.threats?.map((item, idx) => (
                       <li key={idx} className="flex gap-2">
-                        <span>•</span>
-                        <span>{item}</span>
+                        <span>•</span> <span>{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -412,7 +409,7 @@ const ReportDetail = () => {
             </div>
           )}
 
-          {/* TAB 4: PITCH DECK SLIDES */}
+          {/* TAB: PITCH DECK SLIDES */}
           {activeTab === 'pitch' && (
             <div className="space-y-6 animate-fade-in max-w-4xl mx-auto">
               <div className="p-4 bg-brand-950/20 border border-brand-900/60 rounded-2xl text-xs text-brand-300">
@@ -421,7 +418,6 @@ const ReportDetail = () => {
 
               {pitchDeck.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                  {/* Slides List sidebar */}
                   <div className="glass-panel p-4 rounded-2xl md:col-span-1 border-dark-border/60 max-h-[400px] overflow-y-auto space-y-1">
                     {pitchDeck.map((slide, idx) => (
                       <button
@@ -438,7 +434,6 @@ const ReportDetail = () => {
                     ))}
                   </div>
 
-                  {/* Active Slide Presentation Board */}
                   <div className="glass-panel p-8 rounded-3xl md:col-span-3 border-dark-border/60 flex flex-col justify-between min-h-[300px] bg-gradient-to-b from-dark-card/50 to-dark-bg relative overflow-hidden">
                     <div className="absolute right-[-10px] top-[-10px] w-24 h-24 rounded-full bg-brand-500/5 blur-2xl" />
                     <div>

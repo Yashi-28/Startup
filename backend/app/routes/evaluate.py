@@ -1,5 +1,7 @@
 import os
 import json
+from ..ml.market_analysis import generate_competitor_analysis
+from ..ml.forecasting import calculate_financial_forecast
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
@@ -56,6 +58,15 @@ def evaluate_idea(idea_id: int, current_user: User = Depends(get_current_user), 
     prediction.revenue_y1 = ml_results["revenue_y1"]
     prediction.revenue_y2 = ml_results["revenue_y2"]
     prediction.revenue_y3 = ml_results["revenue_y3"]
+    # Dynamic financial trajectory calculation
+    forecast_vectors = calculate_financial_forecast(
+    expected_pricing=float(idea.expected_pricing or 0),
+    revenue_model=idea.revenue_model,
+    marketing_budget=float(idea.marketing_budget or 0)
+)
+    prediction.financial_forecast_optimistic = json.dumps(forecast_vectors["optimistic"])
+    prediction.financial_forecast_realistic = json.dumps(forecast_vectors["realistic"])
+    prediction.financial_forecast_pessimistic = json.dumps(forecast_vectors["pessimistic"])
     prediction.funding_readiness = ml_results["funding_readiness"]
     prediction.risk_market = ml_results["risk_market"]
     prediction.risk_financial = ml_results["risk_financial"]
@@ -91,6 +102,14 @@ def evaluate_idea(idea_id: int, current_user: User = Depends(get_current_user), 
     biz_plan = generate_business_plan_summary(idea_dict)
     mktg_growth = generate_marketing_growth_strategy(idea_dict)
     pitch_deck = generate_pitch_deck(idea_dict)
+    # Run your new Market Competitor Analysis
+    competitor_res = generate_competitor_analysis(
+    industry=idea.industry,
+    description=idea.description,
+    target_audience=idea.target_audience
+)
+    if competitor_res["status"] == "success":
+        report.competitor_analysis = json.dumps(competitor_res["data"])
     
     # Save or update Report
     report = db.query(Report).filter(Report.startup_idea_id == idea.id).first()
