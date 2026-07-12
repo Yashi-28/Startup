@@ -27,8 +27,8 @@ const EvaluationForm = () => {
     expected_pricing: 0,
     expected_investment: 0,
     marketing_budget: 0,
-    team_size: 3,
-    founder_experience: 2,
+    team_size: 0,
+    founder_experience: 0,
     competition_level: 'Medium'
   });
 
@@ -61,7 +61,7 @@ const EvaluationForm = () => {
       return !!(formData.business_model && formData.revenue_model && Number(formData.expected_pricing) >= 0);
     }
     if (step === 4) {
-      return !!(Number(formData.expected_investment) >= 0 && Number(formData.team_size) > 0);
+      return !!(Number(formData.expected_investment) >= 0 && Number(formData.team_size) >= 0);
     }
     return false;
   };
@@ -96,7 +96,7 @@ const EvaluationForm = () => {
       formData.revenue_model && 
       Number(formData.expected_pricing) >= 0 && 
       Number(formData.expected_investment) >= 0 && 
-      Number(formData.team_size) > 0
+      Number(formData.team_size) >= 0
     );
   };
 
