@@ -183,13 +183,16 @@ def ask_mentor_question(idea: dict, chat_history: list, new_question: str) -> st
 
     if not idea or 'name' not in idea:
         system_instruction = """
-        You are a professional Startup Mentor and VC Investment Director.
-        The user is an entrepreneur asking general business planning advice.
-        Use your expertise to provide short, high-value, and actionable mentoring.
+        You are an elite Startup Mentor, Venture Capital (VC) General Partner, and expert Management Consultant.
+        The user is an entrepreneur seeking general business planning advice.
+        Provide highly precise, comprehensive, deep, and professional answers.
+        Analyze their queries using strategic management frameworks (e.g., Porter's Five Forces, Blue Ocean Strategy, Unit Economics analysis, and CAC/LTV dynamics).
+        Structure your answer cleanly using clear markdown headings, bullet points, and detailed paragraphs. 
+        Deliver massive strategic value with thorough, rich explanations. Do not provide brief, basic, or generic summaries.
         """
     else:
         system_instruction = f"""
-        You are a professional Startup Mentor and VC Investment Director.
+        You are an elite Startup Mentor, Venture Capital (VC) General Partner, and expert Management Consultant.
         The user is an entrepreneur who created:
         Name: {idea.get('name')}
         Description: {idea.get('description')}
@@ -199,9 +202,12 @@ def ask_mentor_question(idea: dict, chat_history: list, new_question: str) -> st
         Business Model: {idea.get('business_model')}
         Expected Pricing: Rs. {idea.get('expected_pricing')}
         Expected Investment: Rs. {idea.get('expected_investment')}
+        Industry: {idea.get('industry')}
 
-        Use your expertise to provide short, high-value, and actionable mentoring.
-        Avoid generic answers; be specific to their industry ({idea.get('industry')}).
+        Provide highly precise, comprehensive, deep, and professional answers tailored specifically to their startup's context.
+        Perform in-depth market analysis, competitive positioning evaluation, growth strategy consulting, and unit economics validation.
+        Structure your response with clear markdown headings, bullet points, and detailed operational guidelines.
+        Avoid short, basic, or generic summaries. Give proper, deep business intelligence.
         """
 
     prompt = f"""
@@ -217,7 +223,7 @@ def ask_mentor_question(idea: dict, chat_history: list, new_question: str) -> st
         response = model.generate_content(prompt)
         return response.text.strip()
     except Exception as e:
-        return f"Mentor (Fallback): {get_mock_mentor_response(idea, new_question)}"
+        return f"Mentor (Fallback):\n{get_mock_mentor_response(idea, new_question)}"
 
 
 # --- MOCK FALLBACK GENERATORS ---
@@ -418,21 +424,72 @@ def get_mock_mentor_response(idea: dict, question: str) -> str:
     # Safe key retrievals with default fallbacks
     name = idea.get('name', 'your startup')
     industry = idea.get('industry', 'general business')
-    pricing = idea.get('expected_pricing', 'pricing')
+    pricing = idea.get('expected_pricing', '0')
     revenue_model = idea.get('revenue_model', 'monetization')
-    investment = idea.get('expected_investment', 'capital')
+    investment = idea.get('expected_investment', '0')
     experience = idea.get('founder_experience', '0')
     team_size = idea.get('team_size', '1')
     problem = idea.get('problem', 'your core customer problem')
     launch_date = idea.get('expected_launch_date', 'your launch target')
-    marketing_budget = idea.get('marketing_budget', 'your budget')
+    marketing_budget = idea.get('marketing_budget', '0')
     target_audience = idea.get('target_audience', 'your customer persona')
 
     if "price" in question_lower or "pricing" in question_lower or "charge" in question_lower:
-        return f"For {name}, since your expected price is Rs. {pricing} using a {revenue_model} model, I suggest testing three price tiers: a basic entry tier, a professional tier (default), and an enterprise custom tier. Also, run A/B testing with a 14-day free trial to see if it reduces sign-up friction."
+        return f"""### 📊 Strategic Pricing & Unit Economics Analysis
+
+For **{name}**, operating in the **{industry}** sector, your pricing point of **Rs. {pricing}** under the **{revenue_model}** model needs to align with customer Lifetime Value (LTV) and Customer Acquisition Cost (CAC).
+
+#### 1. Recommended Tiering Strategy
+* **Basic Tier (₹0 / Freemium)**: Allow users to experience the core utility of your solution to minimize onboarding friction.
+* **Professional Tier (₹{pricing}/mo)**: The target standard tier containing the full value proposition described in your solution.
+* **Enterprise Tier (Custom)**: Add custom SLAs, priority support, and multi-user administration tools.
+
+#### 2. Pricing Validation Steps
+1. Conduct user surveys measuring **Price Sensitivity** using the Van Westendorp Price Sensitivity Meter.
+2. Monitor churn rate closely; a monthly churn rate above 5% indicates that the perceived value does not match the price point.
+3. Validate if your CAC (Customer Acquisition Cost) is at least 3x lower than your LTV (Lifetime Value) to maintain a healthy business model.
+"""
     elif "funding" in question_lower or "raise" in question_lower or "invest" in question_lower:
-        return f"You are seeking Rs. {investment}. Since your founder experience is {experience} years and team size is {team_size}, you should focus on building a High-Fidelity MVP first. Angel investors and early-stage pre-seed VCs will want to see customer validation. Focus your pitch on the problem: '{problem}' and demonstrate how your solution works."
+        return f"""### 💰 Venture Funding & Investment Strategy
+
+You are seeking an initial investment of **Rs. {investment}** with a team size of **{team_size} members** and **{experience} years** of founder experience.
+
+#### 1. Milestone Alignment
+Before pitching to institutional Seed VCs or angel groups, you must validate your core problem: *"{problem}"*. Investors will evaluate:
+* **Product-Market Fit (PMF)**: Proof that your target audience (*{target_audience}*) is actively using or willing to pre-pay for your solution.
+* **Capital Efficiency**: How you plan to deploy the Rs. {investment}. Typically, 60% should go toward product development, 30% to user acquisition, and 10% to operations.
+
+#### 2. Investor Pitch Outline
+1. **The Hook**: Clear explanation of the current market inefficiency.
+2. **Traction**: Highlight early signups, beta feedback, or letters of intent (LOIs).
+3. **The Moat**: What makes your technology or business model defensible (e.g. proprietary algorithms or custom database integrations).
+"""
     elif "customer" in question_lower or "acquire" in question_lower or "marketing" in question_lower:
-        return f"With a marketing budget of Rs. {marketing_budget}, you should avoid expensive mass advertising. For {name}, target your niche audience ('{target_audience}') directly. Focus on content marketing, SEO, and direct cold outreach or organic communities. Word-of-mouth is your strongest lever in early phases."
+        return f"""### 📈 Customer Acquisition & Growth Playbook
+
+With an expected marketing budget of **Rs. {marketing_budget}**, mass-market advertising is inefficient. You must run a laser-focused growth hacking strategy.
+
+#### 1. Core Channels to Validate
+* **Niche Communities**: Engage with the **{target_audience}** directly on specialized forums, subreddits, and LinkedIn groups. Provide value first before pitching {name}.
+* **Organic Search (SEO)**: Write high-quality articles addressing the core issue: *"{problem}"*.
+* **Direct B2B Outreach**: If targeting business entities, initiate personalized, value-first cold email campaigns.
+
+#### 2. CAC Optimization Rules
+1. Establish a feedback loop: capture detailed feedback from your first 10 paying customers.
+2. Focus on organic referrals: introduce loop mechanisms (e.g. product sharing or collaborative features) to turn active users into customer advocates.
+"""
     else:
-        return f"That is a great question. In the {industry} sector, success relies on speed to market and customer empathy. For {name}, focus on solving the specific pain point: '{problem}'. I recommend creating a landing page, collecting pre-signups, and interviewing early users to refine your solution before the launch on {launch_date}."
+        return f"""### 🚀 Strategic Market Assessment & Roadmap
+
+For **{name}** to succeed in the **{industry}** sector, your primary operational goal leading up to your launch target of **{launch_date}** is to build a high-fidelity Minimum Viable Product (MVP).
+
+#### 1. Market Penetration Strategy
+* **Problem Focus**: Constantly align all product features with the core problem: *"{problem}"*.
+* **User Feedback loops**: Do not build in isolation. Release a private beta to a cohort of 20-50 target users and analyze usage patterns.
+
+#### 2. Pre-Launch Checklist
+1. **Landing Page Validation**: Create a high-converting page explaining your solution and collect pre-registrations.
+2. **Legal & Compliance**: Ensure proper terms of service, privacy protocols, and corporate registrations.
+3. **Analytics Integration**: Set up user behavior tracking to measure feature engagement from day one.
+"""
+

@@ -24,7 +24,7 @@ const EvaluationForm = () => {
     target_audience: '',
     business_model: 'B2B SaaS',
     revenue_model: 'Subscription',
-    expected_pricing: 1500,
+    expected_pricing: 0,
     expected_investment: 100000,
     marketing_budget: 20000,
     team_size: 3,
@@ -58,7 +58,7 @@ const EvaluationForm = () => {
       return !!(formData.description && formData.problem && formData.solution && formData.target_audience);
     }
     if (step === 3) {
-      return !!(formData.business_model && formData.revenue_model && Number(formData.expected_pricing) > 0);
+      return !!(formData.business_model && formData.revenue_model && Number(formData.expected_pricing) >= 0);
     }
     if (step === 4) {
       return !!(Number(formData.expected_investment) > 0 && Number(formData.team_size) > 0);
@@ -94,7 +94,7 @@ const EvaluationForm = () => {
       formData.target_audience && 
       formData.business_model && 
       formData.revenue_model && 
-      Number(formData.expected_pricing) > 0 && 
+      Number(formData.expected_pricing) >= 0 && 
       Number(formData.expected_investment) > 0 && 
       Number(formData.team_size) > 0
     );
@@ -450,20 +450,26 @@ const EvaluationForm = () => {
                         </select>
                       </div>
 
-                      <div className="sm:col-span-2">
-                        <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-2">Expected Average Pricing (₹ INR)</label>
-                        <div className="relative rounded-xl shadow-sm">
-                          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-500 text-sm font-semibold">
-                            ₹
-                          </div>
-                          <input
-                            type="number"
-                            name="expected_pricing"
-                            value={formData.expected_pricing}
-                            onChange={handleChange}
-                            className="block w-full pl-8 pr-4 py-3 bg-slate-900/40 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
-                          />
-                        </div>
+                      <div className="sm:col-span-2 space-y-2">
+                        <div className="flex justify-between items-center">
+                          <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Expected Average Pricing</label>
+                          <span className="text-xs font-bold text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded-md border border-indigo-900/40">₹{formData.expected_pricing} INR</span>
+                        </div>
+                        <input
+                          type="range"
+                          name="expected_pricing"
+                          min="0"
+                          max="50000"
+                          step="100"
+                          value={formData.expected_pricing}
+                          onChange={handleChange}
+                          className="w-full accent-indigo-500 h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+                        />
+                        <div className="flex justify-between text-[9px] text-slate-500 font-semibold">
+                          <span>₹0</span>
+                          <span>₹25,000</span>
+                          <span>₹50,000+</span>
+                        </div>
                       </div>
                     </div>
                   </div>

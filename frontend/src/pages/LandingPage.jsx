@@ -66,9 +66,9 @@ const LandingPage = () => {
                 <Sparkles className="h-4 w-4 text-indigo-400" /> Powered by Machine Learning & Gemini
               </div>
               
-              <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-white leading-tight">
-                Welcome to Startup <br />
-                <span className="gradient-text">Success Predictor</span>
+              <h1 className="font-black tracking-tighter text-4xl sm:text-5xl lg:text-[3.75rem] text-white leading-[1.1]" style={{ fontFamily: "'Outfit', sans-serif" }}>
+                Predict Your <span className="gradient-text">Startup's</span> <br />
+                <span className="gradient-text">Success</span> Before You Build
               </h1>
               
               <p className="text-base sm:text-lg leading-relaxed text-slate-400 max-w-xl">
